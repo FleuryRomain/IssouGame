@@ -202,7 +202,7 @@ var rotateBackKeys = [
 		frame: 20,
         value: 0
 	}		    
-]   
+];
    
 engine.runRenderLoop(function () {
 	scene.render();
@@ -210,12 +210,11 @@ engine.runRenderLoop(function () {
 
 // a simple click listener
 window.addEventListener("click", function (evt) {
-	var sound = new BABYLON.Sound("success", "success.mp3", scene, null, {loop: true, autoplay:true});
 
 	// with "scene.pick" we can obtain information about the stuff we picked/clicked 
 	var pickResult = scene.pick(evt.clientX, evt.clientY);
 	// if we haven't already picked two cards and we are picking a mesh and that mesh is called "card" and it's not picked yet...
-	if(pickedCards<2 && pickResult.pickedMesh!=null && pickResult.pickedMesh.name=="card" && !pickResult.pickedMesh.picked){
+	if(pickedCards<2 && pickResult.pickedMesh!=null && pickResult.pickedMesh.name==="card" && !pickResult.pickedMesh.picked){
 		// getting card index
 		var cardIndex = pickResult.pickedMesh.cardIndex;
 		// set "picked" to true as we won't be able to pick it again
@@ -225,7 +224,7 @@ window.addEventListener("click", function (evt) {
     		// increase the amount of picked cards
 		pickedCards++;    	
     		// adding keyframes to animation
-		if(pickedCards==1){
+		if(pickedCards===1){
 			firstCardMoveAnimation.setKeys(moveKeys);
 			firstCardRotateAnimation.setKeys(rotateKeys);
 		}
@@ -249,12 +248,12 @@ function animCompleted(){
 	animationCompleted++;
 	// if the number of completed animations is 2, that is the animation of the
 	// 2nd card is completed...
-	if(animationCompleted==2){
+	if(animationCompleted===2){
 		// reset animationCompleted value
 		animationCompleted = 0; 
 		// wait some time (a half second) before checking the match
 		window.setTimeout(function(){
-			if(cardsArray[pickedArray[0]].cardValue==cardsArray[pickedArray[1]].cardValue){
+			if(cardsArray[pickedArray[0]].cardValue===cardsArray[pickedArray[1]].cardValue){
 				// CARDS MATCH
 				// remove the cards and let the player pick again
 				// WIN ISSOU SOUND
@@ -273,6 +272,7 @@ function animCompleted(){
 				/*var sound = new BABYLON.Sound("Success", "success.mp3", scene, function(){
 					sound.play();
 				});*/
+                var music = new BABYLON.Sound("Music", "success.wav", scene, null, { loop: true, autoplay: true });
 
 				firstCardMoveAnimation.setKeys(moveBackKeys);
 				firstCardRotateAnimation.setKeys(rotateBackKeys); 
@@ -296,7 +296,7 @@ function animBackCompleted(){
 	animationCompleted++;
 	// if the number of completed animations is 2, that is the animation of the
 	// 2nd card is completed...
-	if(animationCompleted==2){
+	if(animationCompleted===2){
 		// reset animationCompleted value
 		animationCompleted = 0;
 		// let the player pick again
