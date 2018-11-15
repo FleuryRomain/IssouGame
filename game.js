@@ -56,7 +56,7 @@ light.position = new BABYLON.Vector3(1,1,-10);
  
 // this is the table material. We will map an image called "wood.jpg" on it
 var tableMaterial = new BABYLON.StandardMaterial("tableMaterial", scene);
-tableMaterial.diffuseTexture = new BABYLON.Texture("issou.jpeg", scene);
+tableMaterial.diffuseTexture = new BABYLON.Texture("./assets/images/issou.jpeg", scene);
 
 // THE TABLE
 var table = BABYLON.Mesh.CreateBox("table", 12, scene);
@@ -143,7 +143,7 @@ var firstCardRotateAnimation = new BABYLON.Animation(
 var secondCardRotateAnimation = new BABYLON.Animation(
 	"2nd card rotate animation",
 	"rotation.y",
-	30,
+	60,
 	BABYLON.Animation.ANIMATIONTYPE_FLOAT,
 	BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT
 );
@@ -267,12 +267,9 @@ function animCompleted(){
 				// CARDS DO NOT MATCH
 				// turning back both cards, basically it's the same concept applied
 				// as before when we was showing card colors
-				// LOOSE ISSOU SOUND
 
-				/*var sound = new BABYLON.Sound("Success", "success.mp3", scene, function(){
-					sound.play();
-				});*/
-                var music = new BABYLON.Sound("Music", "success.wav", scene, null, { loop: true, autoplay: true });
+				// LOOSE ISSOU'S SOUND
+                var music = new BABYLON.Sound("Music", "./assets/sounds/success.wav", scene, null, { loop: false, autoplay: true });
 
 				firstCardMoveAnimation.setKeys(moveBackKeys);
 				firstCardRotateAnimation.setKeys(rotateBackKeys); 
