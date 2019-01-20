@@ -13,9 +13,6 @@ var colors = [
 // this is the array we will use to store card values
 var gameArray = [0,0,1,1,2,2,3,3,4,4,5,5,6,6,7,7];
 
-// shuffling the array. There are several ways to do it but it's not in the scope
-// of this script, so I am using http://jsfromhell.com/array/shuffle 
-
 shuffle = function(v){
     for(var j, x, i = v.length; i; j = parseInt(Math.random() * i), x = v[--i], v[i] = v[j], v[j] = x);
     return v;
@@ -23,9 +20,9 @@ shuffle = function(v){
 
 gameArray = shuffle(gameArray);
 
-// a counter to tell us how many animation have been completed so far
+// counter how many animation have been completed 
 var animationCompleted = 0;
-// counter to tell us how many cards we picked so far
+// counter how many cards picked
 var pickedCards=0;
 // an array with the picked cards
 var pickedArray = [];
@@ -33,20 +30,13 @@ var pickedArray = [];
 var canvas = document.getElementById("gameCanvas");
 // creation of the engine itself
 var engine = new BABYLON.Engine(canvas,true);
-// attaching a scene to the engine. This is where our game will take place
+// attaching a scene to the engine
 var scene = new BABYLON.Scene(engine);
 // adding a little fog to the scene, to give some kind of "depth" to the scene
 scene.fogMode = BABYLON.Scene.FOGMODE_EXP;
 // the density is very high, so a low value is recommended
 scene.fogDensity = 0.05;
-// creation of a camera, the type is "AcrRotate".
-// this mean the camera is bound along two arcs, one running from north to south, the other from east to west
-// the first argument is the came of the camera instance
-// the second argument is the angle along the north-south arc, in radians (3 * Math.PI / 2)
-// the 3rd argumentis the angle along the east-west arc, in radians (3*Math.PI/4)
-// the 4th argument is the radius of such arcs (20)
-// the 5th argument is the camera target (BABYLON.Vector3.Zero()) in this case the origin
-// finally, the scene where to attach the camera ("scene")
+
 var camera = new BABYLON.ArcRotateCamera("camera",3 * Math.PI / 2, 11*Math.PI/16, 20, BABYLON.Vector3.Zero(), scene);
 // adding touch controls to camera, that's where hand.js come into play
 camera.attachControl(canvas, false);
@@ -78,7 +68,7 @@ for(i=0;i<16;i++){
 	card.position = new BABYLON.Vector3((i%4)*2.5-3.75,Math.floor(i/4)*2.5-3.75,-0.25);
 	// defining two different meshes, one for the bottom face and one for the rest of the card
 	card.subMeshes=[];
-	// arguments of Submesh are:
+	// arguments of Submesh
 	// 1: the index of the material to use
 	// 2: the index of the first vertex
 	// 3: the number of verices used
@@ -118,9 +108,6 @@ var firstCardMoveAnimation = new BABYLON.Animation(
 	// BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT
 );
 
-// just in case you want to give the 2nd card a different animation.
-// not this case
-
 var secondCardMoveAnimation = new BABYLON.Animation(
 	"2nd card move animation",
 	"position.z",
@@ -136,9 +123,6 @@ var firstCardRotateAnimation = new BABYLON.Animation(
 	BABYLON.Animation.ANIMATIONTYPE_FLOAT,
 	BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT
 );
-
-// just in case you want to give the 2nd card a different animation.
-// not this case
 
 var secondCardRotateAnimation = new BABYLON.Animation(
 	"2nd card rotate animation",
@@ -211,9 +195,8 @@ engine.runRenderLoop(function () {
 // a simple click listener
 window.addEventListener("click", function (evt) {
 
-	// with "scene.pick" we can obtain information about the stuff we picked/clicked 
+	
 	var pickResult = scene.pick(evt.clientX, evt.clientY);
-	// if we haven't already picked two cards and we are picking a mesh and that mesh is called "card" and it's not picked yet...
 	if(pickedCards<2 && pickResult.pickedMesh!=null && pickResult.pickedMesh.name==="card" && !pickResult.pickedMesh.picked){
 		// getting card index
 		var cardIndex = pickResult.pickedMesh.cardIndex;
@@ -244,14 +227,11 @@ window.addEventListener("click", function (evt) {
 });
 
 function animCompleted(){
-	// increasing the number of completed animations
+
 	animationCompleted++;
-	// if the number of completed animations is 2, that is the animation of the
-	// 2nd card is completed...
 	if(animationCompleted===2){
 		// reset animationCompleted value
 		animationCompleted = 0; 
-		// wait some time (a half second) before checking the match
 		window.setTimeout(function(){
 			if(cardsArray[pickedArray[0]].cardValue===cardsArray[pickedArray[1]].cardValue){
 				// CARDS MATCH
@@ -278,7 +258,6 @@ function animCompleted(){
 				for(i=0;i<2;i++){
 					cardsArray[pickedArray[i]].animations.push(animationsArray[i]);
 	    				cardsArray[pickedArray[i]].animations.push(animationsArray[i+2]);
-	    				// launching animation, look at the "// launching animation, look at the "animCompleted" callback function" callback function
 	    				scene.beginAnimation(cardsArray[pickedArray[i]], 0, 40, false,1,animBackCompleted);	
 				}
 				
